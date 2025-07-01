@@ -1,13 +1,96 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Stream of Science Audio</title>
-  </head>
-  <body>
-    
-    <audio controls>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stream of Science Audio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Floating audio widget */
+    #audioWidget {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 12px 12px 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      max-width: 90%;
+      transition: opacity 0.3s ease;
+    }
+
+    #audioWidget audio {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    #closeWidget {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 16px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    #listenButton {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 40px;
+      cursor: pointer;
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 600px) {
+      #audioWidget {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      #closeWidget {
+        font-size: 20px;
+        top: 4px;
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Trigger button -->
+  <button id="listenButton" onclick="showPlayer()">🎧 Listen to this page</button>
+
+  <!-- Sticky, responsive audio player -->
+  <div id="audioWidget">
+    <span id="closeWidget" onclick="hidePlayer()">✖</span>
+    <audio controls autoplay>
       <source src="Stream of Science.wav" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
-  </body>
-</html
+  </div>
+
+  <!-- JavaScript toggle -->
+  <script>
+    function showPlayer() {
+      const widget = document.getElementById('audioWidget');
+      widget.style.display = 'block';
+      widget.style.opacity = 1;
+    }
+
+    function hidePlayer() {
+      const widget = document.getElementById('audioWidget');
+      widget.style.opacity = 0;
+      setTimeout(() => {
+        widget.style.display = 'none';
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
+
