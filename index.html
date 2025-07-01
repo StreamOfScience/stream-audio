@@ -5,7 +5,13 @@
   <title>Stream of Science Audio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Floating audio widget */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Sticky, floating audio widget */
     #audioWidget {
       display: none;
       position: fixed;
@@ -35,37 +41,29 @@
       cursor: pointer;
     }
 
-    #listenButton {
-      font-size: 16px;
-      padding: 10px 20px;
-      margin: 40px;
-      cursor: pointer;
-    }
-
-    /* Mobile-specific adjustments */
+    /* Mobile responsiveness */
     @media (max-width: 600px) {
       #audioWidget {
-        bottom: 10px;
-        right: 10px;
         left: 10px;
+        right: 10px;
+        bottom: 10px;
         border-radius: 8px;
         padding: 10px;
       }
+    }
 
-      #closeWidget {
-        font-size: 20px;
-        top: 4px;
-        right: 8px;
-      }
+    /* Optional: fallback message */
+    #fallbackMessage {
+      padding: 40px;
+      text-align: center;
+      color: #777;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Trigger button -->
-  <button id="listenButton" onclick="showPlayer()">🎧 Listen to this page</button>
-
-  <!-- Sticky, responsive audio player -->
+  <!-- Floating audio widget -->
   <div id="audioWidget">
     <span id="closeWidget" onclick="hidePlayer()">✖</span>
     <audio controls autoplay>
@@ -74,32 +72,35 @@
     </audio>
   </div>
 
-  <!-- JavaScript toggle -->
+  <!-- Optional fallback message for non-#play visitors -->
+  <div id="fallbackMessage">
+    This page contains an audio summary. Embed or visit with <code>#play</code> to auto-play the widget.
+  </div>
 
+  <!-- Script to auto-show the player if #play is in the URL -->
   <script>
-  function showPlayer() {
-    const widget = document.getElementById('audioWidget');
-    widget.style.display = 'block';
-    widget.style.opacity = 1;
-  }
-
-  function hidePlayer() {
-    const widget = document.getElementById('audioWidget');
-    widget.style.opacity = 0;
-    setTimeout(() => {
-      widget.style.display = 'none';
-    }, 300);
-  }
-
-  // Auto-show widget if URL ends with #play
-  window.onload = function () {
-    if (window.location.hash === "#play") {
-      showPlayer();
+    function showPlayer() {
+      const widget = document.getElementById('audioWidget');
+      const fallback = document.getElementById('fallbackMessage');
+      widget.style.display = 'block';
+      widget.style.opacity = 1;
+      fallback.style.display = 'none';
     }
-  };
-</script>
 
+    function hidePlayer() {
+      const widget = document.getElementById('audioWidget');
+      widget.style.opacity = 0;
+      setTimeout(() => {
+        widget.style.display = 'none';
+      }, 300);
+    }
+
+    window.onload = function () {
+      if (window.location.hash === "#play") {
+        showPlayer();
+      }
+    };
+  </script>
 
 </body>
 </html>
-
