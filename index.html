@@ -75,21 +75,30 @@
   </div>
 
   <!-- JavaScript toggle -->
-  <script>
-    function showPlayer() {
-      const widget = document.getElementById('audioWidget');
-      widget.style.display = 'block';
-      widget.style.opacity = 1;
-    }
 
-    function hidePlayer() {
-      const widget = document.getElementById('audioWidget');
-      widget.style.opacity = 0;
-      setTimeout(() => {
-        widget.style.display = 'none';
-      }, 300);
+  <script>
+  function showPlayer() {
+    const widget = document.getElementById('audioWidget');
+    widget.style.display = 'block';
+    widget.style.opacity = 1;
+  }
+
+  function hidePlayer() {
+    const widget = document.getElementById('audioWidget');
+    widget.style.opacity = 0;
+    setTimeout(() => {
+      widget.style.display = 'none';
+    }, 300);
+  }
+
+  // Auto-show widget if URL ends with #play
+  window.onload = function () {
+    if (window.location.hash === "#play") {
+      showPlayer();
     }
-  </script>
+  };
+</script>
+
 
 </body>
 </html>
