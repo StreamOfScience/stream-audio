@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      margin: 2rem;
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: transparent;
     }
 
     #audioWidget {
-      display: none;
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -20,9 +20,8 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 1000;
+      z-index: 999;
       max-width: 90%;
-      transition: opacity 0.3s ease;
     }
 
     #audioWidget audio {
@@ -51,42 +50,19 @@
 </head>
 <body>
 
-  <!-- Floating audio widget -->
   <div id="audioWidget">
     <span id="closeWidget" onclick="hidePlayer()">✖</span>
-    <audio id="sosAudio" controls>
-      <source src="Stream of Science.wav" type="audio/mpeg">
+    <audio controls>
+      <source src="Stream%20of%20Science.wav" type="audio/wav">
       Your browser does not support the audio element.
     </audio>
   </div>
 
   <script>
-    function showPlayer() {
-      const widget = document.getElementById('audioWidget');
-      widget.style.display = 'block';
-      widget.style.opacity = 1;
-    }
-
     function hidePlayer() {
       const widget = document.getElementById('audioWidget');
-      const audio = document.getElementById('sosAudio');
-      widget.style.opacity = 0;
-      audio.pause();
-      setTimeout(() => {
-        widget.style.display = 'none';
-      }, 300);
+      widget.style.display = 'none';
     }
-
-    // Auto-play if URL has #autoplay
-    window.onload = function () {
-      if (window.location.hash === "#autoplay") {
-        showPlayer();
-        const audio = document.getElementById('sosAudio');
-        audio.play().catch(e => {
-          console.log("Autoplay blocked by browser:", e);
-        });
-      }
-    };
   </script>
 
 </body>
