@@ -6,22 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      margin: 0;
+      margin: 2rem;
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
     }
 
-    /* Sticky, floating audio widget */
     #audioWidget {
       display: none;
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: white;
-      padding: 12px 12px 10px;
+      padding: 12px;
       border: 1px solid #ccc;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       z-index: 1000;
       max-width: 90%;
       transition: opacity 0.3s ease;
@@ -41,23 +39,13 @@
       cursor: pointer;
     }
 
-    /* Mobile responsiveness */
     @media (max-width: 600px) {
       #audioWidget {
         left: 10px;
         right: 10px;
         bottom: 10px;
-        border-radius: 8px;
         padding: 10px;
       }
-    }
-
-    /* Optional: fallback message */
-    #fallbackMessage {
-      padding: 40px;
-      text-align: center;
-      color: #777;
-      font-size: 16px;
     }
   </style>
 </head>
@@ -66,38 +54,37 @@
   <!-- Floating audio widget -->
   <div id="audioWidget">
     <span id="closeWidget" onclick="hidePlayer()">✖</span>
-    <audio controls autoplay>
+    <audio id="sosAudio" controls>
       <source src="Stream of Science.wav" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
   </div>
 
-  <!-- Optional fallback message for non-#play visitors -->
-  <div id="fallbackMessage">
-    This page contains an audio summary. Embed or visit with <code>#play</code> to auto-play the widget.
-  </div>
-
-  <!-- Script to auto-show the player if #play is in the URL -->
   <script>
     function showPlayer() {
       const widget = document.getElementById('audioWidget');
-      const fallback = document.getElementById('fallbackMessage');
       widget.style.display = 'block';
       widget.style.opacity = 1;
-      fallback.style.display = 'none';
     }
 
     function hidePlayer() {
       const widget = document.getElementById('audioWidget');
+      const audio = document.getElementById('sosAudio');
       widget.style.opacity = 0;
+      audio.pause();
       setTimeout(() => {
         widget.style.display = 'none';
       }, 300);
     }
 
+    // Auto-play if URL has #autoplay
     window.onload = function () {
-      if (window.location.hash === "#play") {
+      if (window.location.hash === "#autoplay") {
         showPlayer();
+        const audio = document.getElementById('sosAudio');
+        audio.play().catch(e => {
+          console.log("Autoplay blocked by browser:", e);
+        });
       }
     };
   </script>
